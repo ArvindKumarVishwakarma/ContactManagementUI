@@ -1,0 +1,45 @@
+<div class="container mt-4">
+    <h2>Contact Management System</h2>
+    <button class="btn btn-primary mb-3" (click)="onAddContact()">Add Contact</button>
+
+    <div *ngIf="successMessage" class="alert alert-success d-flex justify-content-between align-items-center">
+        <p class="m-0">{{ successMessage }}</p>
+        <button (click)="clearMessages()" class="btn-close" aria-label="Close"></button>
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger d-flex justify-content-between align-items-center">
+        <p class="m-0">{{ errorMessage }}</p>
+        <button (click)="clearMessages()" class="btn-close" aria-label="Close"></button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let contact of contacts">
+                    <td>{{ contact.fname }}</td>
+                    <td>{{ contact.lname }}</td>
+                    <td>{{ contact.email }}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm me-1" (click)="onEditContact(contact)">Edit</button>
+                        <button class="btn btn-danger btn-sm"
+                            (click)="onDeleteContact(contact.id, contact.email)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <app-edit-contact *ngIf="selectedContact" [contact]="selectedContact" (contactUpdated)="onContactUpdated($event)"
+        (cancelEdit)="onCancelEdit()">
+    </app-edit-contact>
+
+    <app-add-contact *ngIf="showAddContact" (contactAdded)="onContactAdded($event)" (cancelAdd)="onCancelAdd()">
+    </app-add-contact>
+</div>
